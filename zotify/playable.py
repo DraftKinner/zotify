@@ -197,13 +197,16 @@ class Track(PlayableContentFeeder.LoadedStream, Playable):
         # Get disc total if available
         disc_total = len(self.album.disc) if hasattr(self.album, "disc") else 1
 
+        # Format the date here
+        formatted_date = f"{date.year}-{str(date.month).zfill(2)}-{str(date.day).zfill(2)}"
+
         return [
             MetadataEntry("album", self.album.name),
             MetadataEntry("album_artist", self.album.artist[0].name),
             MetadataEntry("album_artists", [a.name for a in self.album.artist]),
             MetadataEntry("artist", self.artist[0].name),
             MetadataEntry("artists", [a.name for a in self.artist]),
-            MetadataEntry("date", f"{date.year}-{date.month}-{date.day}"),
+            MetadataEntry("date", formatted_date),
             MetadataEntry("disc", self.disc_number),
             MetadataEntry("discnumber", self.disc_number),
             MetadataEntry("disctotal", disc_total),
