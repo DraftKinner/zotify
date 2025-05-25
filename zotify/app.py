@@ -407,13 +407,14 @@ class App:
                     continue
 
                 # Download track
-                with Logger.progress(
-                    desc=f"({count}/{total}) {track.name}",
-                    total=track.input_stream.size,
-                ) as p_bar:
-                    file = track.write_audio_stream(
-                        output, p_bar, self.__config.download_real_time
-                    )
+                if not self.__config.lyrics_only:
+                    with Logger.progress(
+                        desc=f"({count}/{total}) {track.name}",
+                        total=track.input_stream.size,
+                    ) as p_bar:
+                        file = track.write_audio_stream(
+                            output, p_bar, self.__config.download_real_time
+                        )
 
                 # Download lyrics
                 if playable.type == PlayableType.TRACK and self.__config.lyrics_file:
@@ -429,37 +430,38 @@ class App:
                             except FileNotFoundError as e:
                                 Logger.log(LogChannel.SKIPS, str(e))
                 Logger.log(
-                    LogChannel.DOWNLOADS, f"\nDownloaded {track.name} ({count}/{total})"
+                    LogChannel.DOWNLOADS, f"\nDownloaded {track.name} ({count}/{total}){' lyrics only' if self.__config.lyrics_only else ''}"
                 )
 
-                # Transcode audio
-                if (
-                    self.__config.audio_format != AudioFormat.VORBIS
-                    or self.__config.ffmpeg_args != ""
-                ):
-                    try:
-                        with Loader("Converting audio..."):
-                            file.transcode(
-                                self.__config.audio_format,
-                                self.__config.download_quality,
-                                self.__config.transcode_bitrate,
-                                True,
-                                self.__config.ffmpeg_path,
-                                self.__config.ffmpeg_args.split(),
+                if not self.__config.lyrics_only:
+                    # Transcode audio
+                    if (
+                        self.__config.audio_format != AudioFormat.VORBIS
+                        or self.__config.ffmpeg_args != ""
+                    ):
+                        try:
+                            with Loader("Converting audio..."):
+                                file.transcode(
+                                    self.__config.audio_format,
+                                    self.__config.download_quality,
+                                    self.__config.transcode_bitrate,
+                                    True,
+                                    self.__config.ffmpeg_path,
+                                    self.__config.ffmpeg_args.split(),
+                                )
+                        except TranscodingError as e:
+                            Logger.log(LogChannel.ERRORS, str(e))
+
+                    # Write metadata
+                    if self.__config.save_metadata:
+                        with Loader("Writing metadata..."):
+                            file.write_metadata(track.metadata)
+                            file.write_cover_art(
+                                track.get_cover_art(self.__config.artwork_size)
                             )
-                    except TranscodingError as e:
-                        Logger.log(LogChannel.ERRORS, str(e))
 
-                # Write metadata
-                if self.__config.save_metadata:
-                    with Loader("Writing metadata..."):
-                        file.write_metadata(track.metadata)
-                        file.write_cover_art(
-                            track.get_cover_art(self.__config.artwork_size)
-                        )
-
-                # Remove temp filename
-                file.clean_filename()
+                    # Remove temp filename
+                    file.clean_filename()
 
                 # Reset rate limit counter for every successful download
                 self.__session.rate_limiter.clear_consec_hits()

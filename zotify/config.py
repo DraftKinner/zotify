@@ -272,6 +272,7 @@ class Config:
     ffmpeg_path: str
     language: str
     lyrics_file: bool
+    lyrics_only: bool
     output_album: str
     output_podcast: str
     output_playlist_track: str
