@@ -39,7 +39,7 @@ There are other ways to install and run Zotify on Windows but this is the offici
 - Install pipx:
   - `python3 -m pip install --user pipx`
   - `python3 -m pipx ensurepath`
-- Now close PowerShell and reopen it to ensure the pipx command is available. Proceed to install zotify using either of the commands below.
+- Now close PowerShell and reopen it to ensure the pipx command is available. Proceed to install zotify using the __pipx__ command below.
 </details>
 
 <details><summary>macOS</summary>
@@ -63,11 +63,11 @@ There are other ways to install and run Zotify on Windows but this is the offici
 
 Enter the following command in terminal to install the latest stable version of Zotify.
 ```text
-python -m pip install git+https://github.com/DraftKinner/zotify.git@v1.1.1
+python -m pip install git+https://github.com/DraftKinner/zotify.git
 
 or
 
-pipx install git+https://github.com/DraftKinner/zotify.git@v1.1.1
+pipx install git+https://github.com/DraftKinner/zotify.git
 ```
 
 Or to install the latest version, use:
