@@ -39,7 +39,7 @@ There are other ways to install and run Zotify on Windows but this is the offici
 - Install pipx:
   - `python3 -m pip install --user pipx`
   - `python3 -m pipx ensurepath`
-- Now close PowerShell and reopen it to ensure the pipx command is available. Proceed to install zotify using the __pipx__ command below.
+- Now close PowerShell and reopen it to ensure the pipx command is available. Proceed to install Zotify using the __pipx__ command below.
 </details>
 
 <details><summary>macOS</summary>
@@ -48,14 +48,14 @@ There are other ways to install and run Zotify on Windows but this is the offici
 - Install *Homebrew* (https://brew.sh) by running: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 - After installing Homebrew run: `brew install python@3.11 pipx ffmpeg git`
 - Setup pipx: `pipx ensurepath`
-- Proceed to install zotify using either of the commands below.
+- Proceed to install Zotify using either of the commands below.
 </details>
 
 <details><summary>Linux (Most Popular Distributions)</summary>
 
 - Install `python3`, `pip` (if a separate package), `ffmpeg`, and `git` from your distribution's package manager or software center.
 - Then install pipx, either from your package manager or through pip with: `python3 -m pip install --user pipx`
-- Proceed to install zotify using either of the commands below.
+- Proceed to install Zotify using either of the commands below.
 </details>
 
 </details>
@@ -150,8 +150,8 @@ This only needs to be done once per existing album or playlist.
 
 - `-c` or `--category` can be used to limit search results to certain categories.
   - Available categories are "album", "artist", "playlist", "track", "show" and "episode".
-  - You can search in multiple categories at once
-- You can also narrow down results by using field filters in search queries
+  - You can search in multiple categories at once.
+- You can also narrow down results by using field filters in search queries.
   - Currently available filters are album, artist, track, year, upc, tag:hipster, tag:new, isrc, and genre.
   - Available filters are album, artist, track, year, upc, tag:hipster, tag:new, isrc, and genre.
   - The artist and year filters can be used while searching albums, artists and tracks. You can filter on a single year or a range (e.g. 1970-1982).
@@ -193,13 +193,13 @@ All new contributions should follow this principle to keep the program consisten
 ## Will my account get banned if I use this tool?
 
 There have been no *confirmed* cases of accounts getting banned as a result of using Zotify.
-However, it is still a possiblity and it is recommended you use Zotify with a burner account where possible.
+However, it is still a possibility and it is recommended you use Zotify with a burner account where possible.
 
 Consider using [Exportify](https://watsonbox.github.io/exportify/) to keep backups of your playlists.
 
 ## Disclaimer
 
-Using Zotify violates Sp‌otify user guidelines and may get your account suspended.
+Using Zotify violates Spotify user guidelines and may get your account suspended.
 
-Zotify is intended to be used in compliance with DMCA, Section 1201, for educational, private and fair use, or any simlar laws in other regions.
-Zotify contributors are not liable for damages caused by the use of this tool. See the [LICENSE](./LICENCE) file for more details.
+Zotify is intended to be used in compliance with DMCA, Section 1201, for educational, private and fair use, or any similar laws in other regions.
+Zotify contributors are not liable for damages caused by the use of this tool. See the [LICENCE](./LICENCE) file for more details.
