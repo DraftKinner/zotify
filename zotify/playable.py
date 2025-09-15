@@ -37,7 +37,7 @@ class Lyrics:
                 ts_seconds = str(floor((timestamp % 60000) / 1000)).zfill(2)
                 ts_millis = str(floor(timestamp % 1000))[:2].zfill(2)
                 self.__lines_synced.append(
-                    f"[{ts_minutes}:{ts_seconds}.{ts_millis}]{line["words"]}\n"
+                    f"[{ts_minutes}:{ts_seconds}.{ts_millis}]{line['words']}\n"
                 )
 
     def save(self, path: Path | str, prefer_synced: bool = True) -> None:
