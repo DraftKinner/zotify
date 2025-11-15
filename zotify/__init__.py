@@ -27,9 +27,8 @@ from librespot.core import (
     TokenProvider as LibrespotTokenProvider,
 )
 from librespot.mercury import MercuryClient
-from librespot.metadata import EpisodeId, PlayableId, TrackId, AlbumId, ArtistId, ShowId
+from librespot.metadata import EpisodeId, PlayableId, TrackId
 from librespot.proto import Authentication_pb2 as Authentication
-from librespot.proto import Metadata_pb2 as Metadata
 from librespot.crypto import Packet
 from pkce import generate_code_verifier, get_code_challenge
 from requests import HTTPError, get, post
@@ -318,73 +317,6 @@ class ApiClient(LibrespotApiClient):
             )
             .access_token
         )
-
-    # TODO: Remove when fix is applied to librespot
-    def get_metadata_4_album(self, album: AlbumId) -> Metadata.Album:
-        """
-
-        :param album: AlbumId:
-
-        """
-        response = self.sendToUrl(
-            "GET",
-            "https://spclient.wg.spotify.com",
-            "/metadata/4/album/{}".format(album.hex_id()),
-            None,
-            None,
-        )
-        ApiClient.StatusCodeException.check_status(response)
-
-        body = response.content
-        if body is None:
-            raise IOError()
-        proto = Metadata.Album()
-        proto.ParseFromString(body)
-        return proto
-
-    # TODO: Remove when fix is applied to librespot
-    def get_metadata_4_artist(self, artist: ArtistId) -> Metadata.Artist:
-        """
-
-        :param artist: ArtistId:
-
-        """
-        response = self.sendToUrl(
-            "GET",
-            "https://spclient.wg.spotify.com",
-            "/metadata/4/artist/{}".format(artist.hex_id()),
-            None,
-            None,
-        )
-        ApiClient.StatusCodeException.check_status(response)
-        body = response.content
-        if body is None:
-            raise IOError()
-        proto = Metadata.Artist()
-        proto.ParseFromString(body)
-        return proto
-
-    # TODO: Remove when fix is applied to librespot
-    def get_metadata_4_show(self, show: ShowId) -> Metadata.Show:
-        """
-
-        :param show: ShowId:
-
-        """
-        response = self.sendToUrl(
-            "GET",
-            "https://spclient.wg.spotify.com",
-            "/metadata/4/show/{}".format(show.hex_id()),
-            None,
-            None,
-        )
-        ApiClient.StatusCodeException.check_status(response)
-        body = response.content
-        if body is None:
-            raise IOError()
-        proto = Metadata.Show()
-        proto.ParseFromString(body)
-        return proto
 
 
 class TokenProvider(LibrespotTokenProvider):
