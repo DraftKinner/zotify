@@ -12,7 +12,11 @@ import io
 import struct
 import random
 
-from librespot.audio import AudioKeyManager as LibrespotAudioKeyManager, CdnManager
+from librespot.audio import (
+    AudioKeyManager as LibrespotAudioKeyManager,
+    CdnManager,
+    LoadedStream,
+)
 from librespot.audio.decoders import VorbisOnlyAudioQuality
 from librespot.audio.storage import ChannelManager
 from librespot.cache import CacheManager
@@ -165,9 +169,7 @@ class Session(LibrespotSession):
         )
         return Session(builder, language, oauth)
 
-    def __get_playable(
-        self, playable_id: PlayableId, quality: Quality
-    ) -> PlayableContentFeeder.LoadedStream:
+    def __get_playable(self, playable_id: PlayableId, quality: Quality) -> LoadedStream:
         if quality.value is None:
             quality = Quality.VERY_HIGH if self.is_premium() else Quality.HIGH
         return self.content_feeder().load(

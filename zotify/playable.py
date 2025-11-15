@@ -2,11 +2,11 @@ from math import floor
 from pathlib import Path
 from time import time, sleep
 
-from librespot.core import PlayableContentFeeder
+from librespot.audio import LoadedStream
 from librespot.metadata import AlbumId, ArtistId
 from librespot.proto import Metadata_pb2 as Metadata
 from librespot.structure import GeneralAudioStream
-from librespot.util import bytes_to_hex
+from librespot.util import bytes_to_hex, hex_to_bytes
 from requests import get
 from tqdm import tqdm
 
@@ -167,15 +167,17 @@ class Playable:
         ).content
 
 
-class Track(PlayableContentFeeder.LoadedStream, Playable):
+class Track(LoadedStream, Playable):
     __lyrics: Lyrics
 
-    def __init__(self, track: PlayableContentFeeder.LoadedStream, api):
+    def __init__(self, track: LoadedStream, api):
         super(Track, self).__init__(
             track.track,
             track.input_stream,
             track.normalization_data,
-            track.metrics,
+            hex_to_bytes(track.metrics.file_id),
+            track.metrics.preloaded_audio_key,
+            track.metrics.audio_key_time,
         )
         self.__api = api
         self.cover_images = self.album.cover_group.image
@@ -279,13 +281,15 @@ class Track(PlayableContentFeeder.LoadedStream, Playable):
             )
 
 
-class Episode(PlayableContentFeeder.LoadedStream, Playable):
-    def __init__(self, episode: PlayableContentFeeder.LoadedStream, api):
+class Episode(LoadedStream, Playable):
+    def __init__(self, episode: LoadedStream, api):
         super(Episode, self).__init__(
             episode.episode,
             episode.input_stream,
             episode.normalization_data,
-            episode.metrics,
+            hex_to_bytes(episode.metrics.file_id),
+            episode.metrics.preloaded_audio_key,
+            episode.metrics.audio_key_time,
         )
         self.__api = api
         self.cover_images = self.episode.cover_image.image
